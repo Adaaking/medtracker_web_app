@@ -1,5 +1,5 @@
 import {call,put,takeEvery } from 'redux-saga/effects'
-import { clientInstance } from './allergySaga'
+import { clientInstance } from '../api'
 
 
 

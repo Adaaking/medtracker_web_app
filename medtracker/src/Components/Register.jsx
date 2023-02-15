@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import { clientInstance } from '../features/sagas/allergySaga';
+import { clientInstance } from '../features/api';
 
 
 const Register = () => {
@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault()
     console.log(user)
     try {
-     await clientInstance.post(`api/UserRegistration/register`,user);
+     await clientInstance.post(`/api/auth/register`,user);
      navigate('/login')
     } catch (err) {
       alert("Error registering")
@@ -43,7 +43,7 @@ const Register = () => {
         <input
           className="mt-10 p-[12px] rounded-[10px]  focus:outline-blue-600 text-black"
           type="text"
-          id="confirmPassword"
+          id="firstname"
           onChange={handleChange}
           placeholder="first name"
         />

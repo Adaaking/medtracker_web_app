@@ -1,18 +1,19 @@
 import React from 'react'
 import { useState } from 'react'
 import { BiArrowBack } from 'react-icons/bi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addAllergies } from '../../features/actions/actions'
 import {useNavigate } from 'react-router-dom'
 
 const Allpop = ({ setAlergy }) => {
    const [allergy,setAllergy] = useState("")
+   const user = useSelector(state => state.userReducer.user)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
    const handleSubmit = async(e) => {
     e.preventDefault()
-     dispatch(addAllergies(allergy))
+     dispatch(addAllergies({ userId:user._id,allergy:allergy}))
      navigate('/sub')
    }
     return (

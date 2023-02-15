@@ -1,20 +1,9 @@
 import {call,put,takeEvery } from 'redux-saga/effects'
-import axios from 'axios'
-
-const apiUrl = "https://5d8e-185-107-56-83.eu.ngrok.io/"
+import { clientInstance } from '../api'
 
 
-export let clientInstance = axios.create({
-    headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    },
-    baseURL: apiUrl
-})
 const getAllegry = async () => {
-   const response = await clientInstance.get("api/allergy")
+   const response = await clientInstance.get("/api/allergy")
    console.log("body",response)
    
 }

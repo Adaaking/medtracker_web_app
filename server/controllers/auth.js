@@ -4,7 +4,7 @@ import cryptojs from 'crypto-js';
 
 import Jwt  from "jsonwebtoken";
 export const registerUser = async(req, res) =>{
-
+    console.log(req.body)
     const hashPassword = cryptojs.AES.encrypt(req.body.password, process.env.PASS).toString();
 
     const newUser = User({
