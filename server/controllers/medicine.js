@@ -14,7 +14,7 @@ export const addMedicine = async (req, res)=>{
 
 export const getMedicine = async(req, res) =>{
     try {
-        const meidcines = await Medicine.findById(req.params.id);
+        const meidcines = await Medicine.find({userId:req.params.id});
         res.status(200).json(meidcines);
     } catch (err) {
         res.status(500).json(err)

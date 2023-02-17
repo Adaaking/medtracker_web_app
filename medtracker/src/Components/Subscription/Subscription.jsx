@@ -9,12 +9,17 @@ import ordercard from "../../assets/order-card.png";
 import Popup from "../Popup";
 import ImageViewer from "./ImageViewer";
 import Allpop from "./Allpop";
+import { useSelector } from "react-redux";
+import MedicinePop from "./MedicinePop";
 
 const Subscription = () => {
+  const user  = useSelector(state => state.userReducer.user)
   const [side, setSide] = useState(false);
   const [profile, setProfile] = useState(false);
   const [view, setView] = useState(false);
   const [alergy, setAlergy] = useState(false);
+  const [medicine, setMedicine] = useState(false);
+
 
   return (
     <div
@@ -25,11 +30,12 @@ const Subscription = () => {
       {profile && <Popup setProfile={setProfile} />}
       {view && <ImageViewer setView={setView} />}
       {alergy && <Allpop setAlergy={setAlergy} />}
+      {medicine && <MedicinePop setMedicine ={setMedicine} />}
 
       <div data-testid = "saas" className="w-[900px] m-auto">
-        <h1 className="text-2xl">👋🏻 Good morning apphuset runar</h1>
+        <h1 className="text-2xl">👋🏻 Good morning {user && user.firstname}</h1>
         <div className="bg-white rounded-[20px] w-full p-[20px] my-[1rem]">
-          <h1 className="text-2xl">apphuset runar</h1>
+          <h1 className="text-2xl">{user && user.firstname} keneni</h1>
           <p className="text-black/50 my-1">Member since 2022</p>
           <button
             to="/profile"
@@ -44,7 +50,7 @@ const Subscription = () => {
           <Allergies setAlergy={setAlergy} />
         </div>
         <div className="my-[2rem]">
-          <Medicine />
+          <Medicine setMedicine = {setMedicine}/>
         </div>
         <div className="my-[2rem]">
           <Diagnosis />

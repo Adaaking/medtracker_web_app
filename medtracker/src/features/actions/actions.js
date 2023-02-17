@@ -10,20 +10,51 @@ export const userLogin = (user) => {
 }
 
 ///allergees
-export const allergies = () => {
+export const allergies = (id) => {
     return {
         type: type.GET_ALLERGIES,
+        payload:id
+    }
+}
+
+////////
+
+export const medicinies = (id) => {
+    return {
+        type: type.GET_MEDICINIES,
+        payload:id
+    }
+}
+
+
+export const addMedicinies = (medicine) => {
+    
+    return {
+        type: type.ADD_MEDICINIES,
+        payload:medicine
+    }
+}
+
+export const deleteMedicine = (id) => {
+    console.log('id.....',id)
+    return {
+        type: type.DELETE_MEDICINIES,
+        payload:id
     }
 }
 
 export const addAllergies = ( allergy) => {
+    console.log(allergy)
     return {
         type:type.ADD_ALLERGIES,
         payload:allergy
     }
 }
 
+
+
 export const deleteAllergy = (id) => {
+    console.log('id.....',id)
     return {
         type: type.DELETE_ALLERGIES,
         payload:id
@@ -38,9 +69,11 @@ export const createDocument = ( document ) => {
     }
 }
 
-export const getDocument = () => {
+export const getDocument = (id) => {
+    console.log(id)
     return {
-        type:type.GET_DOCUMENT
+        type:type.GET_DOCUMENT,
+        payload:id
     }
 }
 
@@ -81,12 +114,7 @@ export const medicine = () => {
     }
 }
 
-export const deleteMedicine = (id) => {
-    return {
-        type: type.GET_ALLERGIES,
-        payload:id
-    }
-}
+
 
 ///vaccine
 export const vaccine = () => {

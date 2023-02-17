@@ -1,6 +1,7 @@
 import Document  from "../models/Document.js";
 
 export const addDocs = async (req, res)=>{
+    
     const newDocument = new Document(req.body)
     try {
         const savedDocument = await newDocument.save()
@@ -14,7 +15,7 @@ export const addDocs = async (req, res)=>{
 
 export const getDocs = async(req, res) =>{
     try {
-        const docs = await Document.findById(req.params.id);
+        const docs = await Document.find({userId:req.params.id});
         res.status(200).json(docs);
     } catch (err) {
         res.status(500).json(err)

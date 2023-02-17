@@ -4,14 +4,16 @@ import { clientInstance } from '../api'
 
 
 const login = async (user) => {
-    console.log(user,"saga")
-    const response = await clientInstance.post(user)
+    const response = await clientInstance.post('/api/auth/login',user)
+    console.log(response.data)
     return response.data
 }
 
 
 
 function* userLogin({payload}) {
+    console.log("fsadfas",payload)
+    
     try {
         const user =  yield call(login,payload)
         yield put({type: "LOGIN_SUCCESS",user:user})

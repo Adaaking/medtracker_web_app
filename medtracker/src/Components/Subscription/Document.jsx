@@ -1,20 +1,32 @@
-import { useState ,React} from "react";
-import {
-  AiOutlineDown,
-  AiFillFolder,
-  AiOutlineUp,
-} from "react-icons/ai";
+import { useState, React } from "react";
+import { AiOutlineDown, AiFillFolder, AiOutlineUp } from "react-icons/ai";
 
-import {IoMdDownload} from 'react-icons/io'
-import { IoAddSharp,IoDocumentText } from "react-icons/io5";
-import { HiOutlineEye} from "react-icons/hi";
+import { IoMdDownload } from "react-icons/io";
+import { IoAddSharp, IoDocumentText } from "react-icons/io5";
+import { HiOutlineEye } from "react-icons/hi";
 import { MdDelete, MdModeEditOutline } from "react-icons/md";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteDocument, getDocument } from "../../features/actions/actions";
 
-const Document = ( { setSide,setView }) => {
+const Document = ({ setSide, setView }) => {
+  const user = useSelector((state) => state.userReducer.user);
+  const docs = useSelector((state) => state.documentReducer.document)
+  console.log(docs,"mn felek")
   const [show, setShow] = useState(false);
- 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDocument({ id: user._id }));
+  },[]);
+
+  const deleteDoc = (id) => {
+    dispatch(deleteDocument(id))
+  }
   return (
-    <div data-testid="document" className={`bg-white p-[10px] rounded-[20px] cursor-pointer`}>
+    <div
+      data-testid="document"
+      className={`bg-white p-[10px] rounded-[20px] cursor-pointer`}
+    >
       <div
         className="flex p-[10px] justify-between"
         onClick={() => setShow(!show)}
@@ -43,28 +55,35 @@ const Document = ( { setSide,setView }) => {
         }`}
       >
         <hr className="w-[95%] text-center m-auto" />
-        <div className="mt-4 px-[20px] flex flex-col">
-          <h1 className="text-xl">Living will</h1>
-          <div className="flex justify-between items-center hover:bg-black/10 p-2 my-4 rounded-md">
-            <div className="flex gap-6">
-              <IoDocumentText className="" size={40}/>
-              <div>
-                <h1 className="font-tick">Lorem ipsum dolor</h1>
-                <p className="font-thin ">subtile</p>
+        {docs && docs.map((doc) => (
+          <div className="mt-4 px-[20px] flex flex-col">
+            <h1 className="text-xl">{doc.type}</h1>
+            <div className="flex justify-between items-center hover:bg-black/10 p-2 my-4 rounded-md">
+              <div className="flex gap-6">
+                <IoDocumentText className="" size={40} />
+                <div>
+                  <h1 className="font-tick">{doc.title}</h1>
+                  <p className="font-thin ">subtile</p>
+                </div>
+              </div>
+              <div className="flex">
+                <HiOutlineEye
+                  className="ml-2 text-black/40"
+                  onClick={() => setView(true)}
+                />
+                <MdModeEditOutline className="ml-2 text-black/40" />
+                <IoMdDownload className="ml-2 text-black/40" />
+                <MdDelete className="ml-2 text-black/40"  onClick={() => deleteDoc(doc._id)}/>
               </div>
             </div>
-            <div className="flex">
-              <HiOutlineEye className="ml-2 text-black/40" onClick={() => setView(true)}/>
-              <MdModeEditOutline className="ml-2 text-black/40"/>
-              <IoMdDownload className="ml-2 text-black/40"/>
-              <MdDelete className="ml-2 text-black/40"/>
-            </div>
           </div>
-        </div>
+        ))}
       </div>
       <div className={`flex mt-2 ml-4 ${!show && "hidden"}`}>
-        <button className="ml-4 border border-blue-500 text-blue-500 p-[10px] rounded-[20px] flex items-center" 
-        onClick={() => setSide(true)}>
+        <button
+          className="ml-4 border border-blue-500 text-blue-500 p-[10px] rounded-[20px] flex items-center"
+          onClick={() => setSide(true)}
+        >
           <IoAddSharp className="mr-2" /> Add
         </button>
       </div>

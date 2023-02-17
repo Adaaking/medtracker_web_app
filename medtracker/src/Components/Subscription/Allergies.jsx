@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaAllergies } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   AiOutlineDown,
@@ -12,17 +12,23 @@ import { IoAddSharp } from "react-icons/io5";
 import { HiShare } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import { useEffect } from "react";
-import { allergies } from "../../features/actions/actions";
+import { allergies, deleteAllergy } from "../../features/actions/actions";
 
 
 export const Allergies = ({ setAlergy }) => {
-  // const aleergy = useSelector((state) => state.allergyReducer.allergies);
+  const user  = useSelector(state => state.userReducer.user)
+  const aleergy = useSelector((state) => state.allergyReducer.allergies);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(allergies());
-  });
+    dispatch(allergies({id:user._id}));
+  },[]);
+
+  const deleteAllerg = (id) => {
+    console.log(id)
+    dispatch(deleteAllergy(id))
+  }
   return (
     <div data-testid="allergy" className={`bg-white p-[10px] rounded-[20px] cursor-pointer`}>
       <div
@@ -35,7 +41,7 @@ export const Allergies = ({ setAlergy }) => {
           </div>
           <div>
             <h1 className="text-xl">Allergies</h1>
-            <p className="font-thin ">14 items</p>
+            <p className="font-thin ">{aleergy && aleergy.length} allergies</p>
           </div>
         </div>
         <div className="flex items-center">
@@ -53,20 +59,15 @@ export const Allergies = ({ setAlergy }) => {
         }`}
       >
         <hr className="w-[95%] text-center m-auto" />
-        <div className="flex justify-between items-center mx-[1rem]  hover:bg-black/10 rounded-md cursor-pointer px-2">
-          <p className="my-2 px-[1rem] text-black/50">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </p>
-          <MdDelete size={20} className="hover:hidden" />
-        </div>
-        {/* {aleergy.map((alergy) => (
-          <div className="flex justify-between items-center mx-[1rem] hover:bg-black/10 rounded-md cursor-pointer px-2" key={alergy.id}>
+  
+        {aleergy && aleergy.map((alergy) => (
+          <div className="flex justify-between items-center mx-[1rem] hover:bg-black/10 rounded-md cursor-pointer px-2" key={alergy._id}>
             <p className="my-2 px-[1rem] text-black/50">
-              {alergy.title}
+              {alergy.name}
             </p>
-            <MdDelete size={20} className="hover:hidden" />
+            <MdDelete size={20} className="hover:text-red-600" onClick={() => deleteAllerg(alergy._id)}/>
           </div>
-        ))} */}
+        ))}
       </div>
       <div className={`flex mt-2 ml-4 ${!show && "hidden"}`}>
         <button

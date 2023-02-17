@@ -3,17 +3,18 @@ import { useDispatch} from "react-redux";
 import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import LoginLogo from "./LoginLogo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../../features/actions/actions";
 
 export default function HelloLogin() {
   const [user, setUser] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
+  
   const handleSubmit = async (e) => {
-    console.log(user)
     e.preventDefault();
-    dispatch(userLogin(user));
+    await dispatch(userLogin(user));
+    navigate('/sub')
   };
 
   const handleChange = (e) => {

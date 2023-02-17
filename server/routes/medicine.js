@@ -3,8 +3,8 @@ import {addMedicine, deleteMedicine, getMedicine } from '../controllers/medicine
 import express  from "express";
 const router = express.Router()
 router.post('/', addMedicine)
-router.get('/:userId', getMedicine)
-router.post('/id', deleteMedicine)
+router.get('/:id', getMedicine)
+router.delete('/:id', deleteMedicine)
 
 
 

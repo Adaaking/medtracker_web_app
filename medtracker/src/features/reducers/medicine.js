@@ -2,45 +2,45 @@ import { allergies } from '../actions/actions';
 import * as type from '../types';
 
 const initialState = {
-    allergies:[],
+    medicine:[],
     loading:false,
     success:false,
     updateId:null,
 }
 
-export default function allergyReducer(state = initialState, action){
+export default function medReducer(state = initialState, action){
 
     switch(action.type){
 
-        case type.GET_ALLERGIES:
+        case type.GET_MEDICINIES:
             return {
                 ...state,
                 loading: true
             }
 
-        case type.GET_ALLERGIES_SUCCESS:
+        case type.GET_MEDICINIES_SUCCESS:
             return {
               ...state,
-              allergies: action.memories,
+              medicine: action.memories,
               loading:false,
               success:true
             }
             
-            case type.GET_ALLERGIES_FAILED:
+            case type.ADD_MEDICINIES_FAILED:
                 return {
                   ...state,
                   loading:false,
                   success:false
                 }
      
-            case type.ADD_ALLERGIES_SUCCESS:
-                return [...state.allergies, action.allergy]
+            case type.ADD_MEDICINIES_SUCCESS:
+                return [...state.medicine, action.medicine]
                     
-            case type.DELETE_ALLERGIES_SUCCESS:
+            case type.DELETE_MEDICINIES_SUCCESS:
                 console.log(action.id)
                 return {
                     ...state,
-                    allergies: state.allergies.filter(allergy => allergy._id!==action.id)
+                    medicine: state.medicine.filter(allergy => allergy._id!==action.id)
                 }
         default:
             return state

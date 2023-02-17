@@ -14,8 +14,10 @@ import Professionals from "./pages/Professionals";
 import About from "./pages/About";
 import FAQ from "./pages/Faq";
 import Register from "./Components/Register";
+import { useSelector } from "react-redux";
 
 function App() {
+  const user = useSelector(state => state.userReducer.user)
   return (
     <Router>
       <Navbar />
@@ -26,7 +28,9 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/loginintro" element={<Login />} />
         <Route path="/signup" element={<Register/>}/>
+  
         <Route path="/sub" element={<Subscription />} />
+
         <Route path="/business" element={<Business />} />
         <Route path="/professional" element={<Professionals/>}/>
         <Route path="/profile" element={<Profile />} />

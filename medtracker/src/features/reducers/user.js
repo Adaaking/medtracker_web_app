@@ -13,12 +13,11 @@ export default function userReducer(state=initailState, action){
                 loading:true
             }
         case type.CREATE_USER_SUCCESS:
-            localStorage.setItem('addis',JSON.stringify(action.user))
             return {
-                ...state,user:action.user,
                 success:true
             }
             case type.LOGIN_SUCCESS:
+                console.log("user",action.user)
                 localStorage.setItem('addis',JSON.stringify(action.user))
                 return {
                      ...state, user:action.user,

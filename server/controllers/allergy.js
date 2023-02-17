@@ -14,7 +14,7 @@ export const addAllergy = async (req, res)=>{
 
 export const getAllergy = async(req, res) =>{
     try {
-        const allergies = await Allergy.findById(req.params.id);
+        const allergies = await Allergy.find({userId:req.params.id});
         res.status(200).json(allergies);
     } catch (err) {
         res.status(500).json(err)

@@ -1,38 +1,40 @@
 import {call,put,takeEvery } from 'redux-saga/effects'
 import axios from 'axios'
+import { clientInstance } from '../api'
 
-const apiUrl = "https://0d6a-185-107-56-46.eu.ngrok.io/"
 
-const getDocument = async () => {
-   const response = await axios.get(apiUrl + "api/document")
+const getDocument = async (id) => {
+   const response = await clientInstance.get(`/api/documents/${id}`)
    return response.data
 }
 
 const addDocument = async (document) => {
     console.log("add document")
-   const response = await axios.post(apiUrl + "api/document",document)
+   const response = await clientInstance.post("/api/documents",document)
    return response.data
 }
 
 const deleteDocument = async (id) => {
-    const response = await axios.delete(apiUrl+ `delete/${id}`)
+    const response = await clientInstance.delete(`/api/documents/${id}`)
     return id
 }
 
-function* addDocuments() {
+function* addDocuments(docuement) {
+    console.log(docuement.payload)
     try{
-        const document = yield call(addDocument)
-        yield put({ type: "ADD_DOCUMENT_SUCCESS",docuement:document})
+        const document = yield call(addDocument,docuement.payload)
+        yield put({ type: "ADD_DOCUMENT_SUCCESS",document:document})
     }catch (error){
         yield put({ type:"ADD_DOCUMENT_FAILED",message:error.message})
     }
 }
 
-function* fetchDocuments() {
+function* fetchDocuments({payload}) {
+    console.log("id",payload.id)
     try {
-        const documents = yield call(getDocument)
+        const documents = yield call(getDocument,payload.id)
         console.log(documents)
-        yield put({ type: "GET_DOCUMENT_SUCCESS",docuements:documents})
+        yield put({ type: "GET_DOCUMENT_SUCCESS",documents:documents})
     } catch (error) {
         yield put({ type: 'GET_DOCUMENT_FAILED',message:error.message})
     }

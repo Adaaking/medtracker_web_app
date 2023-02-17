@@ -5,7 +5,7 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  docType: {
+  type: {
     type: String,
   },
   desc: {

@@ -7,7 +7,7 @@ import { createDocument } from "../../features/actions/actions";
 
 const SidebarAdd = ({ side, setSide }) => {
   const [document, setDocument] = useState({ title: "", type: "", desc: "" });
-//   const user = useSelector(state => state.userReduer.user)
+  const user = useSelector(state => state.userReducer.user)
   const [file, setFile] = useState();
   const dispatch = useDispatch()
 
@@ -32,10 +32,8 @@ const SidebarAdd = ({ side, setSide }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      await dispatch(createDocument({ ...document,file }));
+      await dispatch(createDocument({ ...document,userId:user._id }));
       setSide(false)
-
     } catch (error) {
       console.log(error.message);
     }

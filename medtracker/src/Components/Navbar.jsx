@@ -1,12 +1,17 @@
 import React from "react";
 import logo from "../assets/home/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { navbar } from "../data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
   const user = useSelector((state) => state.userReducer.user);
-  console.log(user)
+  const navigate = useNavigate()
+  
+  const logout = () => {
+    localStorage.clear()
+    navigate('/')
+  }
   return (
     <div className="bg-white p-3 h-[7rem] z-10 w-[100%] sticky top-0 shadow-md">
       <div className=" p-3 max-w-[1200px] flex justify-between items-center m-auto">
@@ -41,8 +46,8 @@ const Navbar = () => {
           </div>
         ) : (
           <div>
-            <button className="w-[7rem] rounded-[3px] bg-[#A81515] p-[15px]">
-              Sign up
+            <button className="w-[7rem] rounded-[3px] bg-[#A81515] p-[15px] text-white" onClick={logout} >
+              logout
             </button>
           </div>
         )}

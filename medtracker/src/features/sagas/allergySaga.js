@@ -2,37 +2,37 @@ import {call,put,takeEvery } from 'redux-saga/effects'
 import { clientInstance } from '../api'
 
 
-const getAllegry = async () => {
-   const response = await clientInstance.get("/api/allergy")
-   console.log("body",response)
+const getAllegry = async (id) => {
+   const response = await clientInstance.get(`/api/allergy/${id}`)
+   return response.data
    
 }
 
 const Addallergy = async (allergy) => {
-    console.log("metenal")
-
-   const response = await clientInstance.post(allergy)
+    console.log("metenal", allergy)
+   const response = await clientInstance.post("/api/allergy",allergy)
    return response.data
 }
 
 const deleteAllerg = async (id) => {
-    const response = await clientInstance.delete(`/delete/${id}`)
+    const response = await clientInstance.delete(`/api/allergy/${id}`)
     return id
 }
 
-function* Addallergies () {
+function* Addallergies ({payload}) {
+    console.log("dgasgfsd",payload)
     try{
-        const allergy = yield call(Addallergy)
+        const allergy = yield call(Addallergy,payload)
+        console.log(allergy)
         yield put({ type: "ADD_ALLERGIES_SUCCESS",allergy:allergy})
     }catch (error){
         yield put({ type:"ADD_ALLERGIES_FAILED",message:error.message})
     }
 }
 
-function* fetchAllergies() {
+function* fetchAllergies( {payload} ) {
     try {
-        const memories = yield call(getAllegry)
-        console.log(memories)
+        const memories = yield call(getAllegry,payload.id)
         yield put({ type: "GET_ALLERGIES_SUCCESS",memories:memories})
     } catch (error) {
         yield put({ type: 'GET_ALLERGIES_FAILED',message:error.message})
@@ -41,19 +41,17 @@ function* fetchAllergies() {
 
 function* deleteAllergy({payload}) {
     try {
-        console.log('payload', payload)
         const memoryId = yield(call(deleteAllerg,payload))
-        console.log(memoryId)
-        yield put({type:"DELETE_MEMORY_SUCCESS",id:memoryId})
+        yield put({type:"DELETE_ALLERGIES_SUCCESS",id:memoryId})
     } catch (error) {
-        yield put({ type:"DELETE_MEMORY_FAILED"})
+        yield put({ type:"DELETE_ALLERGIES_FAILED"})
     }
 }
 
 function* allergySaga() {
    yield takeEvery("ADD_ALLERGIES",Addallergies)
    yield takeEvery("GET_ALLERGIES",fetchAllergies) 
-   yield takeEvery("DELETE_ALLERGY",deleteAllergy)
+   yield takeEvery("DELETE_ALLERGIES",deleteAllergy)
 }
 
 export default allergySaga;

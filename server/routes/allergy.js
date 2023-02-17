@@ -4,7 +4,7 @@ import express  from "express";
 const router = express.Router()
 router.post('/', addAllergy)
 router.get('/:id', getAllergy)
-router.post('/id', deleteALlergy)
+router.delete('/:id', deleteALlergy)
 
 
 
